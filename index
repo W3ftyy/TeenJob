@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TeenTöö – AI job finder for teens in Estonia</title>
+<style>
+:root{--bg:#fff;--card:#fff;--text:#0f1b3d;--mute:#5b6783;--accent:#1d4ed8;--ink:#fff;--soft:#eef3ff;--border:#dde4f5;--orange:#ff7a1a;--orange-ink:#1a0d00;--orange-soft:#fff1e5;--orange-text:#c2570a;--warn:#fff6ee;--warnt:#8a4a12;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b1226;--card:#101a36;--text:#eef2ff;--mute:#9aa7c7;--accent:#6c93ff;--ink:#0b1226;--soft:#16203d;--border:#26335a;--orange:#ff9a4d;--orange-soft:#3a2412;--orange-text:#ffb27a;--warn:#2a1d12;--warnt:#ffc58f}}
+:root[data-theme="dark"]{--bg:#0b1226;--card:#101a36;--text:#eef2ff;--mute:#9aa7c7;--accent:#6c93ff;--ink:#0b1226;--soft:#16203d;--border:#26335a;--orange:#ff9a4d;--orange-soft:#3a2412;--orange-text:#ffb27a;--warn:#2a1d12;--warnt:#ffc58f}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+main{max-width:680px;margin:0 auto;padding:32px 18px 72px}
+h1{font-size:2rem;font-weight:800;letter-spacing:-.03em;margin:0 0 4px;color:var(--accent)}
+h1 span{color:var(--orange)}
+.sub{color:var(--mute);margin:0 0 20px;font-size:1rem}
+.topbar{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+.searchwrap{flex:1;min-width:0}
+.searchwrap input{padding:9px 14px;font-size:.92rem;border-radius:999px}
+.btn{padding:9px 15px;border-radius:999px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn.pref[aria-expanded="true"]{background:var(--soft);border-color:var(--accent);color:var(--accent)}
+.btn.find{background:var(--orange);border-color:var(--orange);color:var(--orange-ink)}
+.btn:disabled{opacity:.55}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:14px}
+.panel[hidden]{display:none}
+label{display:block;font-weight:600;margin:16px 0 8px;font-size:.82rem;color:var(--mute)}
+input,select{width:100%;padding:11px 13px;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);font:inherit}
+input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--border);background:var(--bg);color:var(--text);padding:6px 13px;border-radius:999px;cursor:pointer;font:inherit;font-size:.86rem}
+.chip:hover{border-color:var(--orange)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--ink)}
+.warn{background:var(--warn);color:var(--warnt);border:1px solid var(--orange);border-radius:10px;padding:11px 14px;font-size:.84rem;margin-bottom:16px}
+.job h3{margin:0 0 10px;font-size:1.08rem;font-weight:700;letter-spacing:-.01em}
+.tag{display:inline-block;background:var(--soft);color:var(--accent);border-radius:6px;padding:2px 9px;font-size:.76rem;margin:0 6px 6px 0}
+.tag.ok{background:var(--orange-soft);color:var(--orange-text);font-weight:700}
+.job p{margin:8px 0}
+.mute{color:var(--mute);font-size:.9rem}
+.sec{font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--orange);margin:30px 0 12px}
+.apply{display:inline-block;margin-top:8px;padding:9px 16px;border-radius:999px;background:var(--accent);color:var(--ink);font-weight:600;font-size:.9rem;text-decoration:none}
+.apply:hover{opacity:.88}
+.pager{display:flex;align-items:center;justify-content:center;gap:14px;margin:16px 0}
+.pager button{padding:8px 16px;border-radius:999px;border:1.5px solid var(--border);background:var(--card);color:var(--text);font:inherit;font-size:.9rem;cursor:pointer}
+.pager button:disabled{opacity:.35;cursor:default}
+.pager[hidden]{display:none}
+#board{touch-action:pan-y}
+#status{margin:10px 0;color:var(--mute)}
+footer{color:var(--mute);font-size:.8rem;margin-top:40px;padding-top:20px;border-top:1px solid var(--border)}
+.langs{display:flex;gap:6px;justify-content:flex-end;margin-bottom:8px}
+.langs button{padding:4px 11px;border-radius:999px;border:1.5px solid var(--border);background:var(--card);color:var(--mute);font:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+.langs button[aria-pressed="true"]{background:var(--orange);border-color:var(--orange);color:var(--orange-ink)}
+.locbox{border:1.5px solid var(--border);border-radius:10px;background:var(--bg)}
+.locbox summary{padding:11px 13px;cursor:pointer;list-style:none;font-size:.95rem}
+.locbox summary::-webkit-details-marker{display:none}
+#locList{max-height:260px;overflow:auto;padding:0 12px 10px;border-top:1px solid var(--border)}
+.lrow{display:flex;align-items:center;gap:8px;margin:0;padding:6px 4px;font-weight:400;font-size:.9rem;color:var(--text)}
+.lrow.cty{font-weight:700;margin-top:8px}
+.lrow.cit{padding-left:24px}
+.lrow input{width:auto;padding:0;margin:0}
+</style>
+</head>
+<body>
+<main>
+<div class="langs" id="langs"></div>
+<h1>Teen<span>Töö</span></h1>
+<p class="sub" data-i="sub"></p>
+
+<div class="warn" data-i="topwarn" data-html="1"></div>
+
+<div class="topbar">
+  <div class="searchwrap"><input id="town" type="search" placeholder="Search job, employer or town" data-ph="search" maxlength="40" aria-label="Search listings"></div>
+  <button class="btn pref" id="prefBtn" data-i="pref" type="button" aria-expanded="false" aria-controls="panel">Preferences</button>
+  <button class="btn find" id="go" data-i="find" type="button">Find</button>
+</div>
+<div class="card panel" id="panel" hidden>
+  <div class="row">
+    <div><label data-i="cityL">City / county</label><details id="locBox" class="locbox"><summary id="locSum"></summary><div id="locList"></div></details></div>
+    <div id="distWrap" hidden><label for="district" data-i="distL">Tallinn district</label><select id="district"></select></div>
+  </div>
+  <div class="row">
+    <div><label for="age" data-i="age">Age</label><select id="age"></select></div>
+    <div><label for="goal" data-i="goal">Main goal</label>
+      <select id="goal"><option>Earn pocket money</option><option>Save for something big</option><option>Gain experience / CV</option><option>Try a future career</option></select></div>
+  </div>
+  <label data-i="interestsL">What kind of work or interests? (pick any)</label>
+  <div class="chips" id="interests"></div>
+  <label data-i="whenL">When can you work?</label>
+  <div class="chips" id="when"></div>
+  <label for="lang" data-i="langL">Languages you speak</label>
+  <input id="lang" placeholder="Estonian, Russian, English…" data-ph="langPh" maxlength="60">
+  <button class="btn find" id="done" data-i="done" type="button" style="margin-top:18px;width:100%">Show my matches</button>
+</div>
+
+<div id="status" aria-live="polite"></div>
+<div id="hint"></div>
+<div class="pager" hidden>
+  <button class="prev" data-i="prev" type="button">← Previous</button>
+  <span class="pageinfo mute"></span>
+  <button class="next" data-i="next" type="button">Next →</button>
+</div>
+<div id="board"></div>
+<div class="pager" hidden>
+  <button class="prev" data-i="prev" type="button">← Previous</button>
+  <span class="pageinfo mute"></span>
+  <button class="next" data-i="next" type="button">Next →</button>
+</div>
+<h2 class="sec" id="ideasH" data-i="ideasH" hidden>More ideas to try</h2>
+<div id="results"></div>
+
+<footer data-i="footer"></footer>
+</main>
+
+<script>
+(function(){
+var $=function(id){return document.getElementById(id)};
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+
+var LISTINGS=[
+{id:"rimi",title:"Shelf stocker, part-time (Kaubapaigutaja)",employer:"Rimi Eesti Food, Pirita Supermarket",town:"Tallinn",status:"open",deadline:"Apply by 28.10.2026",minAge:18,pay:"€5.67/hour",note:"Listing says 18+ and Estonian B1. 0.5 load Fri–Sun 8:00–16:30, or 0.75 load on a rotating schedule.",url:"https://too.rimi.ee/jobs/8483293-kaubapaigutaja-pirita-rimi-supermarket"},
+{id:"metsis",title:"Customer service (Klienditeenindaja), part-time",employer:"Hotell Metsis (Sistem OÜ)",town:"Valga",status:"open",deadline:"Apply by 31.10.2026",minAge:17,pay:"Not stated",note:"Töötukassa listing says the employer is ready to hire minors from age 17 for short 'workbit' jobs. Parental consent is needed.",url:"https://www.tootukassa.ee/et/toopakkumised/klienditeenindaja-593172"},
+{id:"coopsiku",title:"Customer service (Klienditeenindaja), Sikupilli",employer:"Coop Harju, Sikupilli peremarket",town:"Tallinn",status:"open",deadline:"Apply by 01.11.2026",minAge:null,pay:"Not stated",note:"Full-time, shift work, start immediately. Minimum age is not stated in the listing, so ask the employer.",url:"https://www.cvkeskus.ee/klienditeenindaja-sikupilli-peremarketisse-coop-harju-tallinnas-harju-tarbijate-uhistu-1057979"},
+{id:"coopsopruse",title:"Baker and customer service (Küpsetaja-klienditeenindaja)",employer:"Coop Harju, Sõpruse store",town:"Tallinn",status:"open",deadline:"Apply by 24.10.2026",minAge:18,pay:"From €1,175/month gross",note:"Listing says 18+, physical work, spoken Estonian needed.",url:"https://www.cvkeskus.ee/kupsetaja-klienditeenindaja-sopruse-kauplusesse-coop-harju-tallinnas-harju-tarbijate-uhistu-1056791"},
+{id:"coopmuraste",title:"Customer service (Klienditeenindaja), Muraste",employer:"Coop Harju, Muraste Konsum",town:"Harku parish, near Tallinn",status:"open",deadline:"Apply by 08.11.2026",minAge:18,pay:"About €1,225/month gross",note:"Full-time, schedule-based. Listing says 18+, physical work, spoken Estonian needed.",url:"https://www.cvkeskus.ee/klienditeenindaja-muraste-konsumisse-coop-harju-harjumaal-harju-tarbijate-uhistu-1059016"},
+{id:"jyskparnu",title:"Christmas helper (Jõuluabiline)",employer:"JYSK Pärnu",town:"Pärnu",status:"open",deadline:"Apply by 08.11.2026",minAge:null,pay:"From €946/month gross (full-time)",note:"Fixed-term 1 Nov – 31 Dec 2026. Store floor and warehouse tasks, flexible load. Minimum age is not stated, so ask the employer.",url:"https://www.cvkeskus.ee/jouluabiline-parnu-jysk-tahtajaline-leping-perioodiks-01112026-31122026-parnus-jysk-linnen-n-furniture-ou-1059056"},
+{id:"jyskviljandi",title:"Christmas helper (Jõuluabiline)",employer:"JYSK Viljandi",town:"Viljandi",status:"open",deadline:"See deadline in listing",minAge:null,pay:"Not stated",note:"Fixed-term 1 Nov – 31 Dec 2026. Customer service, displays and warehouse tidying. Minimum age is not stated, so ask the employer.",url:"https://jobs.smartrecruiters.com/JYSKBaltics/744000154354306-jouluabiline-viljandi-jysk-tahtajaline-leping-perioodiks-01-11-2026-31-12-2026-"},
+{id:"sobralt",maxAge:17,title:"Summer shop job",employer:"Sõbralt Sõbrale charity shops",town:"Tallinn, Pärnu, Keila",status:"plan",deadline:"Applications opened 1–8 April in 2026",minAge:15,pay:"Paid summer job",note:"For ages 15–17 and has run for 8 years. Watch their page next spring.",url:"https://sobraltsobrale.ee/noored-suveks-toole/"},
+{id:"tallinn",maxAge:17,title:"Tallinn summer jobs for 13–17 year olds",employer:"Tallinn Education Department, with Töötukassa",town:"Tallinn",status:"plan",deadline:"Updated every year",minAge:13,pay:"Varies",note:"Past listings included cleaning, restaurant service, shelf stocking and sales, mostly from age 15–16. The 2026 ones have closed.",url:"https://www.tallinn.ee/et/noorteinfo/too-noortele"},
+{id:"malev",maxAge:17,title:"Youth work camp (töömalev)",employer:"Municipalities such as Haapsalu and Rakvere parish",town:"Haapsalu, Rakvere vald, other towns",status:"plan",deadline:"Usually register in spring",minAge:13,pay:"Paid",note:"Supervised light outdoor work for 13–17 year olds. You usually must be registered in that municipality.",url:"https://www.noor.haapsalu.ee/toomalev/"}
+];
+
+var LANG="en";
+try{var _sv=localStorage.getItem("tt_lang");if(_sv)LANG=_sv;else{var _n=(navigator.language||"").slice(0,2);if(_n==="et"||_n==="ru")LANG=_n}}catch(e){var _m=(navigator.language||"").slice(0,2);if(_m==="et"||_m==="ru")LANG=_m}
+var T={
+en:{sub:"Search real job listings and get matches for your profile.",topwarn:"Listings were last updated on <b>{u}</b> and are refreshed about every 3 days (next update: {n}). They may close at any time. Every card links straight to the posting. If you are under 18, you need a parent or guardian's consent and the job must be allowed for your age.",search:"Search job, employer or town",pref:"Preferences",find:"Find",done:"Show my matches",age:"Age",goal:"Main goal",interestsL:"What kind of work or interests? (pick any)",whenL:"When can you work?",langL:"Languages you speak",langPh:"Estonian, Russian, English…",prev:"← Previous",next:"Next →",ideasH:"More ideas to try",footer:"Working rules for minors in Estonia are strict (hours, night work, allowed tasks). This page gives general guidance only. Confirm with the Labour Inspectorate (Tööinspektsioon) or your school.",open:"Open now",plan:"Plan ahead",ages:"Ages {a}–{b}",from:"From age {n}",adult:"18+",nostated:"Age not stated",openBtn:"Open this listing →",page:"Page {p} of {n} · swipe or tap",nomatch:"No listings match. Try a shorter search, another area, or clear the filters.",cityL:"City / county",distL:"Tallinn district",distHint:"Listings without a confirmed district are also shown.",minorHint:"You are under 18, so this page only shows jobs that say they accept your age. Many employers (like Rimi and Coop) require 18+. Open jobs that accept 17-year-olds are rare, so the yearly youth programs below matter most.",thinking:"Thinking…",noai:"AI matching isn't available in this view, but all listings above still work.",rate:"Too many requests, please wait a moment and try again.",fail:"Couldn't get suggestions. The listings above still work.",how:"How to apply: ",searchFor:"Search for: “{s}”. These links open search results, not one listing:",cvr:"CV Keskus results",ggl:"Google results",tipL:"Tip: ",ideaT:"Idea",common:"Common first job",matchHow:"Search the portals below and message the employer if the age is not stated.",whyInt:"Matches your interest in {x}",whyWhen:"Fits your availability ({x})",whyTown:"Located in {x}",whyNone:"No strong match with your picks, but you are eligible.",whyIdea:"Matches your interest: {x}. Check the minimum age in each posting.",whyCommon:"A common first job in Estonia.",legalMinor:"Estonian rules limit hours, night work and tasks for under-18s, and you need a parent or guardian's consent. Check with the Labour Inspectorate (Tööinspektsioon).",legalAdult:"You are 18, so adult work rules apply. Always get a written contract before starting.",tip:"Make a one-page CV with your languages and any volunteering, and ask a parent to read any contract with you.",g0:"Earn pocket money",g1:"Save for something big",g2:"Gain experience / CV",g3:"Try a future career"},
+et:{sub:"Otsi päris töökuulutusi ja saa sobivad soovitused oma profiili järgi.",topwarn:"Kuulutusi uuendati viimati <b>{u}</b> ja värskendatakse umbes iga 3 päeva tagant (järgmine: {n}). Need võivad igal ajal sulguda. Iga kaart viib otse kuulutuse juurde. Kui oled alla 18, on vaja vanema või eestkostja nõusolekut ja töö peab olema sinu east lubatud.",search:"Otsi tööd, tööandjat või linna",pref:"Eelistused",find:"Leia",done:"Näita sobivaid",age:"Vanus",goal:"Peamine eesmärk",interestsL:"Milline töö või huvi? (vali mitu)",whenL:"Millal saad töötada?",langL:"Keeled, mida räägid",langPh:"eesti, vene, inglise…",prev:"← Eelmine",next:"Järgmine →",ideasH:"Veel ideid",footer:"Alaealiste töö reeglid Eestis on ranged (tunnid, öötöö, lubatud ülesanded). See leht annab vaid üldist teavet. Kinnita Tööinspektsioonis või koolis.",open:"Avatud",plan:"Planeeri ette",ages:"Vanus {a}–{b}",from:"Alates {n} a",adult:"18+",nostated:"Vanus pole märgitud",openBtn:"Ava kuulutus →",page:"Lehekülg {p}/{n} · pühi või puuduta",nomatch:"Sobivaid kuulutusi ei leitud. Proovi lühemat otsingut, teist piirkonda või tühjenda filtrid.",cityL:"Linn / maakond",distL:"Tallinna linnaosa",distHint:"Näidatakse ka kuulutusi, mille linnaosa pole kinnitatud.",minorHint:"Oled alla 18, seega näed ainult töid, mis märgivad sinu vanuse sobivaks. Paljud tööandjad (nt Rimi ja Coop) nõuavad 18+. 17-aastaseid võtvad avatud töökohad on haruldased, seega on allpool olulisemad iga-aastased noorteprogrammid.",thinking:"Mõtlen…",noai:"AI-sobitus pole selles vaates saadaval, aga kõik kuulutused töötavad.",rate:"Liiga palju päringuid, oota hetk ja proovi uuesti.",fail:"Soovitusi ei õnnestunud saada. Kuulutused töötavad ikka.",how:"Kuidas kandideerida: ",searchFor:"Otsi: “{s}”. Need lingid avavad otsingutulemused, mitte ühe kuulutuse:",cvr:"CV Keskuse tulemused",ggl:"Google'i tulemused",tipL:"Näpunäide: ",ideaT:"Idee",common:"Tavaline esimene töö",matchHow:"Otsi allolevatest portaalidest ja kirjuta tööandjale, kui vanust pole märgitud.",whyInt:"Sobib sinu huviga: {x}",whyWhen:"Sobib sinu ajaga ({x})",whyTown:"Asub: {x}",whyNone:"Tugevat vastet pole, aga sobid vanuse poolest.",whyIdea:"Sobib sinu huviga: {x}. Vaata iga kuulutuse vanusepiiri.",whyCommon:"Tavaline esimene töö Eestis.",legalMinor:"Eesti reeglid piiravad alaealiste töötunde, öötööd ja ülesandeid ning vaja on vanema või eestkostja nõusolekut. Küsi Tööinspektsioonist.",legalAdult:"Oled 18, seega kehtivad täiskasvanu töö reeglid. Nõua alati kirjalikku lepingut enne alustamist.",tip:"Tee ühelehekülgne CV oma keelte ja vabatahtliku tööga ning lase vanemal leping koos sinuga üle vaadata.",g0:"Teenida taskuraha",g1:"Koguda suureks ostuks",g2:"Saada kogemust / CV",g3:"Proovida tulevast ametit"},
+ru:{sub:"Ищите реальные вакансии и получайте подборку под ваш профиль.",topwarn:"Объявления обновлены <b>{u}</b> и обновляются примерно раз в 3 дня (следующее: {n}). Они могут закрыться в любой момент. Каждая карточка ведёт прямо на объявление. Если вам нет 18, нужно согласие родителя или опекуна, а работа должна быть разрешена для вашего возраста.",search:"Поиск: работа, работодатель или город",pref:"Настройки",find:"Найти",done:"Показать подборку",age:"Возраст",goal:"Главная цель",interestsL:"Какая работа или интересы? (выберите)",whenL:"Когда можете работать?",langL:"Языки, на которых говорите",langPh:"эстонский, русский, английский…",prev:"← Назад",next:"Далее →",ideasH:"Ещё идеи",footer:"Правила работы для несовершеннолетних в Эстонии строгие (часы, ночная работа, допустимые задачи). Эта страница даёт только общую информацию. Уточните в Инспекции труда (Tööinspektsioon) или в школе.",open:"Открыто",plan:"Планируйте заранее",ages:"Возраст {a}–{b}",from:"С {n} лет",adult:"18+",nostated:"Возраст не указан",openBtn:"Открыть объявление →",page:"Страница {p} из {n} · листайте или нажмите",nomatch:"Ничего не найдено. Попробуйте более короткий запрос, другой район или сбросьте фильтры.",cityL:"Город / уезд",distL:"Район Таллина",distHint:"Также показаны объявления, для которых район не подтверждён.",minorHint:"Вам нет 18, поэтому показаны только работы, где указан ваш возраст. Многие работодатели (например, Rimi и Coop) требуют 18+. Открытые вакансии для 17-летних встречаются редко, поэтому ниже важнее ежегодные молодёжные программы.",thinking:"Думаю…",noai:"ИИ-подбор здесь недоступен, но все объявления работают.",rate:"Слишком много запросов, подождите немного и повторите.",fail:"Не удалось получить советы. Объявления всё равно работают.",how:"Как подать заявку: ",searchFor:"Поиск: «{s}». Эти ссылки открывают результаты поиска, а не одно объявление:",cvr:"Результаты CV Keskus",ggl:"Результаты Google",tipL:"Совет: ",ideaT:"Идея",common:"Обычная первая работа",matchHow:"Ищите на порталах ниже и напишите работодателю, если возраст не указан.",whyInt:"Подходит под интерес: {x}",whyWhen:"Подходит по времени ({x})",whyTown:"Находится: {x}",whyNone:"Явного совпадения нет, но по возрасту вы подходите.",whyIdea:"Подходит под интерес: {x}. Проверьте минимальный возраст в каждом объявлении.",whyCommon:"Обычная первая работа в Эстонии.",legalMinor:"Правила Эстонии ограничивают часы, ночную работу и задачи для несовершеннолетних, нужно согласие родителя или опекуна. Уточните в Инспекции труда (Tööinspektsioon).",legalAdult:"Вам 18, поэтому действуют правила для взрослых. Всегда требуйте письменный договор до начала работы.",tip:"Сделайте резюме на одну страницу с языками и волонтёрством и попросите родителя прочитать договор вместе с вами.",g0:"Заработать карманные деньги",g1:"Накопить на что-то большое",g2:"Получить опыт / резюме",g3:"Попробовать будущую профессию"}
+};
+function tx(k,v){var s=(T[LANG]&&T[LANG][k])||T.en[k]||k;if(v)for(var x in v)s=s.replace("{"+x+"}",v[x]);return s}
+var CHIP={};
+"Warehouse|Ladu|Склад;Cleaning|Koristus|Уборка;Dishwashing / kitchen help|Nõudepesu / köögiabi|Мойка посуды / помощь на кухне;Shop assistant|Müüja|Продавец;Shelf stocking|Kaubapaigutus|Выкладка товаров;Café / waiter|Kohvik / ettekandja|Кафе / официант;Hotel housekeeping|Hotelli toateenindus|Уборка номеров в отеле;Delivery / flyers|Kullerdus / flaierid|Доставка / листовки;Gardening / outdoor|Aiatöö / välitöö|Садовые / уличные работы;Farm / seasonal|Talu / hooajatöö|Ферма / сезонная работа;Babysitting|Lapsehoid|Присмотр за детьми;Tutoring|Juhendamine|Репетиторство;Event help|Ürituste abi|Помощь на мероприятиях;Customer service|Klienditeenindus|Обслуживание клиентов;Animals|Loomad|Животные;Sports|Sport|Спорт;Gaming|Mängud|Игры;Tech & coding|Tehnika ja programmeerimine|Техника и программирование;Art & design|Kunst ja disain|Искусство и дизайн;Cooking|Kokkamine|Кулинария;Kids|Lapsed|Дети;Nature|Loodus|Природа;Music|Muusika|Музыка;Social media|Sotsiaalmeedia|Соцсети;Cars|Autod|Автомобили;Fashion|Mood|Мода;Weekday afternoons|Argipäeva pärastlõunad|Будни после обеда;Weekends|Nädalavahetused|Выходные;Summer break|Suvevaheaeg|Летние каникулы;Holidays only|Ainult pühad|Только праздники".split(";").forEach(function(r){var p=r.split("|");CHIP[p[0]]={et:p[1],ru:p[2]}});
+function cl(k){return (CHIP[k]&&CHIP[k][LANG])||k}
+var IDEA_RU={};
+"Warehouse|Помощник на складе;Cleaning|Уборщик;Dishwashing / kitchen help|Мойщик посуды / помощник на кухне;Shop assistant|Продавец-консультант;Shelf stocking|Выкладчик товаров;Café / waiter|Официант в кафе;Hotel housekeeping|Горничная в отеле;Delivery / flyers|Раздатчик листовок;Gardening / outdoor|Садовый помощник;Farm / seasonal|Сезонный работник на ферме;Babysitting|Няня;Tutoring|Репетитор для младших;Event help|Помощник на мероприятиях;Customer service|Консультант по обслуживанию;Animals|Помощник по уходу за животными;Sports|Помощник тренера;Gaming|Помощник в игровом центре;Tech & coding|Стажировка в IT;Art & design|Стажировка в дизайне;Cooking|Помощник на кухне;Kids|Помощник в детском лагере;Nature|Помощник на природе;Music|Помощник в музыкальной школе;Social media|Стажировка в соцсетях;Cars|Работник автомойки;Fashion|Продавец в магазине одежды".split(";").forEach(function(r){var p=r.split("|");IDEA_RU[p[0]]=p[1]});
+var TRL={
+rimi:{et:{title:"Kaubapaigutaja, osaline koormus",deadline:"Kandideeri kuni 28.10.2026",pay:"5,67 €/tund",note:"Kuulutuse järgi 18+ ja eesti keel B1. 0,5 koormus R–P 8:00–16:30 või 0,75 koormus vahetustega."},ru:{title:"Выкладчик товаров, неполный день",deadline:"Подать заявку до 28.10.2026",pay:"5,67 €/час",note:"По объявлению: 18+ и эстонский B1. 0,5 ставки пт–вс 8:00–16:30 или 0,75 ставки по сменам."}},
+metsis:{et:{title:"Klienditeenindaja, osaline koormus",deadline:"Kandideeri kuni 31.10.2026",pay:"Pole märgitud",note:"Töötukassa kuulutuse järgi värbab tööandja alaealisi alates 17. eluaastast lühiajalistele tööampsudele. Vaja on vanema nõusolekut."},ru:{title:"Обслуживание клиентов, неполный день",deadline:"Подать заявку до 31.10.2026",pay:"Не указано",note:"По объявлению Töötukassa работодатель готов нанимать несовершеннолетних с 17 лет на короткие подработки. Нужно согласие родителей."}},
+coopsiku:{et:{title:"Klienditeenindaja, Sikupilli",deadline:"Kandideeri kuni 01.11.2026",pay:"Pole märgitud",note:"Täiskoormus, vahetustega, alustamine kohe. Miinimumvanust kuulutuses ei ole, küsi tööandjalt."},ru:{title:"Консультант-кассир, Sikupilli",deadline:"Подать заявку до 01.11.2026",pay:"Не указано",note:"Полная ставка, сменный график, начало сразу. Минимальный возраст не указан, спросите у работодателя."}},
+coopsopruse:{et:{title:"Küpsetaja-klienditeenindaja",deadline:"Kandideeri kuni 24.10.2026",pay:"alates 1175 €/kuus bruto",note:"Kuulutuse järgi 18+, füüsiline töö, vaja eesti keele suulist oskust."},ru:{title:"Пекарь и консультант",deadline:"Подать заявку до 24.10.2026",pay:"от 1175 €/мес брутто",note:"По объявлению 18+, физическая работа, нужен разговорный эстонский."}},
+coopmuraste:{et:{title:"Klienditeenindaja, Muraste",town:"Harku vald, Tallinna lähedal",deadline:"Kandideeri kuni 08.11.2026",pay:"umbes 1225 €/kuus bruto",note:"Täiskoormus, graafikujärgne. Kuulutuse järgi 18+, füüsiline töö, vaja eesti keele suulist oskust."},ru:{title:"Консультант, Muraste",town:"волость Харку, рядом с Таллином",deadline:"Подать заявку до 08.11.2026",pay:"около 1225 €/мес брутто",note:"Полная ставка, по графику. По объявлению 18+, физическая работа, нужен разговорный эстонский."}},
+jyskparnu:{et:{title:"Jõuluabiline",deadline:"Kandideeri kuni 08.11.2026",pay:"alates 946 €/kuus bruto (täiskoormus)",note:"Tähtajaline: 1. nov – 31. dets 2026. Poesaali ja lao ülesanded, paindlik koormus. Miinimumvanust pole märgitud, küsi tööandjalt."},ru:{title:"Рождественский помощник",deadline:"Подать заявку до 08.11.2026",pay:"от 946 €/мес брутто (полная ставка)",note:"Срочный договор: 1 нояб – 31 дек 2026. Работа в зале и на складе, гибкая нагрузка. Минимальный возраст не указан, спросите у работодателя."}},
+jyskviljandi:{et:{title:"Jõuluabiline",deadline:"Tähtaeg on kuulutuses",pay:"Pole märgitud",note:"Tähtajaline: 1. nov – 31. dets 2026. Klienditeenindus, kaupade ülesseadmine ja lao korrastamine. Miinimumvanust pole märgitud, küsi tööandjalt."},ru:{title:"Рождественский помощник",deadline:"Срок указан в объявлении",pay:"Не указано",note:"Срочный договор: 1 нояб – 31 дек 2026. Обслуживание клиентов, выкладка и порядок на складе. Минимальный возраст не указан, спросите у работодателя."}},
+sobralt:{et:{title:"Suvine poetöö",town:"Tallinn, Pärnu, Keila",deadline:"Kandideerimine algas 1.–8. aprillil 2026",pay:"Tasuline suvetöö",note:"Vanuses 15–17, töötab juba 8 aastat. Jälgi nende lehte järgmisel kevadel."},ru:{title:"Летняя работа в магазине",town:"Таллин, Пярну, Кейла",deadline:"Приём заявок 1–8 апреля 2026",pay:"Оплачиваемая летняя работа",note:"Для возраста 15–17, программа идёт уже 8 лет. Следите за их сайтом следующей весной."}},
+tallinn:{et:{title:"Tallinna suvetööd 13–17-aastastele",employer:"Tallinna Haridusamet koos Töötukassaga",deadline:"Uuendatakse igal aastal",pay:"Erinev",note:"Varasemad kuulutused: koristus, restoranis teenindus, kaubapaigutus ja müük, enamasti alates 15–16 aasta vanusest. 2026. aasta omad on lõppenud."},ru:{title:"Летняя работа в Таллине для 13–17 лет",employer:"Департамент образования Таллина и Töötukassa",deadline:"Обновляется каждый год",pay:"По-разному",note:"Раньше были уборка, обслуживание в ресторане, выкладка и продажи, чаще с 15–16 лет. Объявления 2026 года закрыты."}},
+malev:{et:{title:"Noorte töömalev",employer:"Omavalitsused, nt Haapsalu ja Rakvere vald",town:"Haapsalu, Rakvere vald, teised linnad",deadline:"Registreerimine tavaliselt kevadel",pay:"Tasuline",note:"Juhendatud kerge välitöö 13–17-aastastele. Tavaliselt pead olema selle omavalitsuse elanikuna registreeritud."},ru:{title:"Молодёжный трудовой лагерь (töömalev)",employer:"Самоуправления, например Haapsalu и Rakvere vald",town:"Haapsalu, Rakvere vald, другие города",deadline:"Обычно регистрация весной",pay:"Оплачиваемо",note:"Лёгкая работа на свежем воздухе под присмотром для 13–17 лет. Обычно нужно быть зарегистрированным в этом самоуправлении."}}
+};
+function L(l){var o={},k;for(k in l)o[k]=l[k];var x=(TRL[l.id]||{})[LANG];if(x)for(k in x)o[k]=x[k];return o}
+function LN(){return {en:"English",et:"Estonian",ru:"Russian"}[LANG]}
+var G=["Earn pocket money","Save for something big","Gain experience / CV","Try a future career"];
+function goalOpts(){var s=$("goal"),cur=s.value;s.textContent="";G.forEach(function(g,i){var o=document.createElement("option");o.value=g;o.textContent=tx("g"+i);s.appendChild(o)});if(cur)s.value=cur}
+function applyStatic(){
+  Array.prototype.forEach.call(document.querySelectorAll("[data-i]"),function(e){var s=tx(e.getAttribute("data-i")).replace("{u}",updStr(0)).replace("{n}",updStr(3));if(e.hasAttribute("data-html"))e.innerHTML=s;else e.textContent=s});
+  Array.prototype.forEach.call(document.querySelectorAll("[data-ph]"),function(e){e.placeholder=tx(e.getAttribute("data-ph"))});
+}
+var GROUPS=[
+["harju","Harju","Harjumaa","Харьюмаа",["tallinn|Tallinn|Таллин","maardu|Maardu|Маарду","keila|Keila|Кейла","saue|Saue|Сауэ","paldiski|Paldiski|Палдиски","loksa|Loksa|Локса"]],
+["hiiu","Hiiu","Hiiumaa","Хийумаа",["kardla|Kärdla|Кярдла"]],
+["idaviru","Ida-Viru","Ida-Virumaa","Ида-Вирумаа",["narva|Narva|Нарва","kohtlajarve|Kohtla-Järve|Кохтла-Ярве","johvi|Jõhvi|Йыхви","sillamae|Sillamäe|Силламяэ","narvajoesuu|Narva-Jõesuu|Нарва-Йыэсуу"]],
+["jogeva","Jõgeva","Jõgevamaa","Йыгевамаа",["jogeva|Jõgeva|Йыгева","poltsamaa|Põltsamaa|Пыльтсамаа","mustvee|Mustvee|Мустве"]],
+["jarva","Järva","Järvamaa","Ярвамаа",["paide|Paide|Пайде","turi|Türi|Тюри"]],
+["laane","Lääne","Läänemaa","Ляэнемаа",["haapsalu|Haapsalu|Хаапсалу"]],
+["laaneviru","Lääne-Viru","Lääne-Virumaa","Ляэне-Вирумаа",["rakvere|Rakvere|Раквере","kunda|Kunda|Кунда","tapa|Tapa|Тапа"]],
+["polva","Põlva","Põlvamaa","Пылвамаа",["polva|Põlva|Пылва"]],
+["parnu","Pärnu","Pärnumaa","Пярнумаа",["parnu|Pärnu|Пярну","sindi|Sindi|Синди","kilingi|Kilingi-Nõmme|Килинги-Нымме"]],
+["rapla","Rapla","Raplamaa","Рапламаа",["rapla|Rapla|Рапла","marjamaa|Märjamaa|Мярьямаа"]],
+["saare","Saare","Saaremaa","Сааремаа",["kuressaare|Kuressaare|Курессааре"]],
+["tartu","Tartu","Tartumaa","Тартумаа",["tartu|Tartu|Тарту","elva|Elva|Элва","kallaste|Kallaste|Калласте"]],
+["valga","Valga","Valgamaa","Валгамаа",["valga|Valga|Валга","torva|Tõrva|Тырва","otepaa|Otepää|Отепя"]],
+["viljandi","Viljandi","Viljandimaa","Вильяндимаа",["viljandi|Viljandi|Вильянди","moisakula|Mõisaküla|Мыйзакюла","abja|Abja-Paluoja|Абья-Палуоя"]],
+["voru","Võru","Võrumaa","Вырумаа",["voru|Võru|Выру","antsla|Antsla|Антсла"]]
+];
+var DISTS=["any","haabersti","kesklinn","kristiine","lasnamae","mustamae","nomme","pirita","pohja"];
+var LOCN={};
+"c_all|All Estonia|Kogu Eesti|Вся Эстония;c_tallinn|Tallinn|Tallinn|Таллин;c_harju|Harju county (outside Tallinn)|Harju maakond (v.a Tallinn)|Харьюский уезд (кроме Таллина);c_parnu|Pärnu|Pärnu|Пярну;c_viljandi|Viljandi|Viljandi|Вильянди;c_valga|Valga|Valga|Валга;c_laane|Haapsalu (Lääne county)|Haapsalu (Läänemaa)|Хаапсалу (Ляэнемаа);c_laaneviru|Rakvere area (Lääne-Viru)|Rakvere piirkond (Lääne-Virumaa)|Район Раквере (Ляэне-Вирумаа);c_tartu|Tartu|Tartu|Тарту;c_narva|Narva|Narva|Нарва;d_any|Any district|Kõik linnaosad|Любой район;d_haabersti|Haabersti|Haabersti|Хааберсти;d_kesklinn|City Centre (Kesklinn)|Kesklinn|Кесклинн (центр);d_kristiine|Kristiine|Kristiine|Кристийне;d_lasnamae|Lasnamäe|Lasnamäe|Ласнамяэ;d_mustamae|Mustamäe|Mustamäe|Мустамяэ;d_nomme|Nõmme|Nõmme|Нымме;d_pirita|Pirita|Pirita|Пирита;d_pohja|North Tallinn (Põhja-Tallinn)|Põhja-Tallinn|Пыхья-Таллинн".split(";").forEach(function(r){var p=r.split("|");LOCN[p[0]]={en:p[1],et:p[2],ru:p[3]}});
+GROUPS.forEach(function(g){LOCN["k_"+g[0]]={en:g[1]+" County",et:g[2],ru:g[3]};g[4].forEach(function(p){var q=p.split("|");LOCN["c_"+q[0]]={en:q[1],et:q[1],ru:q[2]}})});
+T.en.locSel="Selected";T.et.locSel="Valitud";T.ru.locSel="Выбрано";T.en.clear="Clear all";T.et.clear="Tühjenda kõik";T.ru.clear="Сбросить всё";
+T.en.allIn="all";T.et.allIn="kõik";T.ru.allIn="все";
+function lname(k){var r=LOCN[k];return r?(r[LANG]||r.en):k}
+var LOC={rimi:{c:["tallinn","county:harju"],d:"pirita"},metsis:{c:["valga","county:valga"]},coopsiku:{c:["tallinn","county:harju"],d:"lasnamae"},coopsopruse:{c:["tallinn","county:harju"]},coopmuraste:{c:["county:harju"]},jyskparnu:{c:["parnu","county:parnu"]},jyskviljandi:{c:["viljandi","county:viljandi"]},sobralt:{c:["tallinn","parnu","keila","county:harju","county:parnu"]},tallinn:{c:["tallinn","county:harju"]},malev:{c:["haapsalu","rakvere","county:laane","county:laaneviru"]}};
+var locSel={};
+function locKeys(){return Object.keys(locSel).filter(function(k){return locSel[k]})}
+function locTallinnOnly(){var k=locKeys();return k.length===1&&k[0]==="tallinn"}
+function locSummary(){var k=locKeys();$("locSum").textContent=k.length?tx("locSel")+" ("+k.length+"): "+k.slice(0,3).map(function(x){return x.indexOf("county:")===0?lname("k_"+x.slice(7)):lname("c_"+x)}).join(", ")+(k.length>3?"…":""):lname("c_all")}
+function locChanged(){if(!locTallinnOnly())$("district").value="any";$("distWrap").hidden=!locTallinnOnly();locSummary();page=1;lastRank=null;renderBoard()}
+function fillLoc(){
+  var d=$("district"),dv=d.value||"any",box=$("locList");
+  box.textContent="";
+  var clr=el("button","btn",tx("clear"));clr.type="button";clr.style.cssText="padding:3px 12px;font-size:.78rem;margin:8px 0";
+  clr.onclick=function(){locSel={};fillLoc();locChanged()};
+  box.appendChild(clr);
+  function row(key,text,cls){var lb=document.createElement("label");lb.className="lrow "+cls;var cb=document.createElement("input");cb.type="checkbox";cb.checked=!!locSel[key];cb.onchange=function(){locSel[key]=cb.checked;locChanged()};lb.appendChild(cb);lb.appendChild(document.createTextNode(" "+text));box.appendChild(lb)}
+  GROUPS.forEach(function(g){row("county:"+g[0],lname("k_"+g[0])+" · "+tx("allIn"),"cty");g[4].forEach(function(p){var key=p.split("|")[0];row(key,lname("c_"+key),"cit")})});
+  d.textContent="";DISTS.forEach(function(k){var o=document.createElement("option");o.value=k;o.textContent=lname("d_"+k);d.appendChild(o)});d.value=dv;
+  $("distWrap").hidden=!locTallinnOnly();
+  locSummary();
+}
+var UPD="2026-10-12";
+function updStr(add){var d=new Date(UPD+"T00:00:00");d.setDate(d.getDate()+add);try{return d.toLocaleDateString(LANG==="et"?"et-EE":LANG==="ru"?"ru-RU":"en-GB",add?{day:"numeric",month:"short"}:{day:"numeric",month:"short",year:"numeric"})}catch(e){return UPD}}
+var ISO={rimi:"2026-10-28",metsis:"2026-10-31",coopsiku:"2026-11-01",coopsopruse:"2026-10-24",coopmuraste:"2026-11-08",jyskparnu:"2026-11-08"};
+LISTINGS.forEach(function(l){if(ISO[l.id])l.deadline_iso=ISO[l.id]});
+var PER=5,page=1,lastRank=null;
+
+function visible(age){
+  var q=($("town").value||"").trim().toLowerCase();
+  return LISTINGS.filter(function(l){
+    var ks=locKeys(),ds=$("district").value;
+    if(ks.length){var lc=LOC[l.id]||{c:[]};if(!ks.some(function(k){return lc.c.indexOf(k)>-1}))return false;if(locTallinnOnly()&&ds&&ds!=="any"&&lc.d&&lc.d!==ds)return false}
+    if(q&&(l.title+" "+l.employer+" "+l.town+" "+l.note+" "+JSON.stringify((TRL[l.id]||{})[LANG]||{})).toLowerCase().indexOf(q)<0)return false;
+    if(l.maxAge&&age>l.maxAge)return false;
+    if(age<18){return l.minAge!=null&&age>=l.minAge}
+    return true;
+  });
+}
+function renderBoard(){
+  var age=+$("age").value;
+  var list=visible(age);
+  var hidden=LISTINGS.filter(function(l){return l.maxAge&&age>l.maxAge}).length;
+  var order={},why={};
+  if(lastRank&&lastRank.matches){lastRank.matches.forEach(function(m,i){order[m.id]=i;why[m.id]=m.why})}
+  list.sort(function(a,b){
+    if(lastRank){var x=(a.id in order)?order[a.id]:99,y=(b.id in order)?order[b.id]:99;if(x!==y)return x-y}
+    var sa=a.status==="open"?0:1,sb=b.status==="open"?0:1;return sa-sb;
+  });
+  var hint=$("hint");hint.textContent="";
+  if(age<18){hint.appendChild(el("div","warn",tx("minorHint")))}
+  if(locTallinnOnly()&&$("district").value&&$("district").value!=="any")hint.appendChild(el("div","warn",tx("distHint")));
+
+  var pages=Math.max(1,Math.ceil(list.length/PER));
+  if(page>pages)page=pages;
+  var box=$("board");box.textContent="";
+  if(!list.length)box.appendChild(el("div","warn",tx("nomatch")));
+  list.slice((page-1)*PER,page*PER).forEach(function(l){
+    l=L(l);
+    var c=el("div","card job");
+    c.appendChild(el("h3","",l.title));
+    c.appendChild(el("span",l.status==="open"?"tag ok":"tag",l.status==="open"?tx("open"):tx("plan")));
+    c.appendChild(el("span","tag",l.employer));
+    c.appendChild(el("span","tag",l.town));
+    c.appendChild(el("span","tag",l.deadline));
+    c.appendChild(el("span","tag",l.minAge?(l.maxAge?tx("ages",{a:l.minAge,b:l.maxAge}):(l.minAge>=18?tx("adult"):tx("from",{n:l.minAge}))):tx("nostated")));
+    if(l.pay)c.appendChild(el("span","tag",l.pay));
+    if(why[l.id])c.appendChild(el("p","","✨ "+why[l.id]));
+    c.appendChild(el("p","mute",l.note));
+    var a=el("a","apply",tx("openBtn"));a.href=l.url;a.target="_blank";a.rel="noopener";
+    c.appendChild(a);
+    box.appendChild(c);
+  });
+  totalPages=pages;
+  Array.prototype.forEach.call(document.querySelectorAll(".pager"),function(p){
+    p.hidden=pages<=1;
+    p.querySelector(".pageinfo").textContent=tx("page",{p:page,n:pages});
+    p.querySelector(".prev").disabled=page<=1;
+    p.querySelector(".next").disabled=page>=pages;
+  });
+}
+var totalPages=1;
+function turnPage(d){var n=page+d;if(n<1||n>totalPages)return;page=n;renderBoard();$("hint").scrollIntoView({behavior:"smooth",block:"start"})}
+Array.prototype.forEach.call(document.querySelectorAll(".pager"),function(p){
+  p.querySelector(".prev").onclick=function(){turnPage(-1)};
+  p.querySelector(".next").onclick=function(){turnPage(1)};
+});
+var sx=null,sy=null;
+$("board").addEventListener("touchstart",function(e){sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+$("board").addEventListener("touchend",function(e){
+  if(sx===null)return;
+  var dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;sx=null;
+  if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)turnPage(dx<0?1:-1);
+},{passive:true});
+document.addEventListener("keydown",function(e){
+  if(e.target&&/INPUT|SELECT|TEXTAREA/.test(e.target.tagName))return;
+  if(e.key==="ArrowRight")turnPage(1);
+  if(e.key==="ArrowLeft")turnPage(-1);
+});
+
+var ageSel=$("age");
+for(var a=13;a<=18;a++){var o=document.createElement("option");o.value=a;o.textContent=a;if(a===18)o.selected=true;ageSel.appendChild(o)}
+ageSel.onchange=function(){page=1;lastRank=null;renderBoard()};
+
+var CH={interests:["Warehouse","Cleaning","Dishwashing / kitchen help","Shop assistant","Shelf stocking","Café / waiter","Hotel housekeeping","Delivery / flyers","Gardening / outdoor","Farm / seasonal","Babysitting","Tutoring","Event help","Customer service","Animals","Sports","Gaming","Tech & coding","Art & design","Cooking","Kids","Nature","Music","Social media","Cars","Fashion"],when:["Weekday afternoons","Weekends","Summer break","Holidays only"]};
+var sel={};
+function chips(id){
+  var box=$(id);box.textContent="";
+  CH[id].forEach(function(k){
+    var b=document.createElement("button");b.type="button";b.className="chip";b.textContent=cl(k);
+    b.setAttribute("aria-pressed",sel[k]?"true":"false");
+    b.onclick=function(){sel[k]=!sel[k];b.setAttribute("aria-pressed",sel[k]?"true":"false")};
+    box.appendChild(b);
+  });
+}
+function picked(id){return CH[id].filter(function(k){return sel[k]})}
+
+$("prefBtn").onclick=function(){var p=$("panel");p.hidden=!p.hidden;$("prefBtn").setAttribute("aria-expanded",String(!p.hidden))};
+$("district").onchange=function(){page=1;lastRank=null;renderBoard()};
+$("done").onclick=function(){$("panel").hidden=true;$("prefBtn").setAttribute("aria-expanded","false");$("go").click()};
+$("town").addEventListener("input",function(){page=1;lastRank=null;renderBoard()});
+function renderIdeas(data){
+  var box=$("results");box.textContent="";
+  if(data&&data.legal_note)box.appendChild(el("div","warn","⚖️ "+data.legal_note));
+  ((data&&data.jobs)||[]).forEach(function(j){
+    var c=el("div","card job");
+    c.appendChild(el("h3","",j.title||"Job idea"));
+    if(j.type)c.appendChild(el("span","tag",j.type));
+    if(j.pay)c.appendChild(el("span","tag",j.pay));
+    c.appendChild(el("p","",j.why||""));
+    if(j.how)c.appendChild(el("p","mute",tx("how")+j.how));
+    if(j.search){
+      c.appendChild(el("p","mute",tx("searchFor",{s:j.search})));
+      var q=encodeURIComponent(j.search);
+      var lk=el("p","","");
+      [[tx("cvr"),"https://www.cvkeskus.ee/toopakkumised?op=search&search%5Bkeyword%5D="+q],[tx("ggl"),"https://www.google.com/search?q="+q+"+t%C3%B6%C3%B6pakkumine"]].forEach(function(x){
+        var a=el("a","apply",x[0]+" →");a.href=x[1];a.target="_blank";a.rel="noopener";a.style.marginRight="8px";lk.appendChild(a);
+      });
+      c.appendChild(lk);
+    }
+    box.appendChild(c);
+  });
+  if(data&&data.tip){var t=el("div","card","");t.appendChild(el("b","",tx("tipL")));t.appendChild(document.createTextNode(data.tip));box.appendChild(t)}
+}
+
+renderBoard();
+
+var KEYS={
+rimi:{tags:["Shelf stocking","Shop assistant","Customer service"],when:["Weekends"]},
+metsis:{tags:["Customer service","Hotel housekeeping","Café / waiter"],when:["Weekday afternoons","Weekends"]},
+coopsiku:{tags:["Customer service","Shop assistant"],when:[]},
+coopsopruse:{tags:["Cooking","Customer service","Shop assistant"],when:[]},
+coopmuraste:{tags:["Customer service","Shop assistant"],when:[]},
+jyskparnu:{tags:["Shop assistant","Warehouse","Customer service","Shelf stocking"],when:["Holidays only"]},
+jyskviljandi:{tags:["Shop assistant","Warehouse","Customer service","Shelf stocking"],when:["Holidays only"]},
+sobralt:{tags:["Shop assistant","Fashion","Customer service"],when:["Summer break"]},
+tallinn:{tags:["Cleaning","Shelf stocking","Café / waiter","Shop assistant","Hotel housekeeping","Dishwashing / kitchen help"],when:["Summer break"]},
+malev:{tags:["Gardening / outdoor","Nature","Cleaning"],when:["Summer break"]}
+};
+var IDEAS={
+"Warehouse":[18,"Warehouse helper","laot\u00f6\u00f6line"],
+"Cleaning":[16,"Cleaner","koristaja"],
+"Dishwashing / kitchen help":[16,"Dishwasher / kitchen helper","n\u00f5udepesija k\u00f6\u00f6giabiline"],
+"Shop assistant":[16,"Shop assistant","m\u00fc\u00fcja-klienditeenindaja"],
+"Shelf stocking":[16,"Shelf stocker","kaubapaigutaja"],
+"Caf\u00e9 / waiter":[16,"Caf\u00e9 or restaurant server","teenindaja kohvik"],
+"Hotel housekeeping":[16,"Hotel room attendant","toateenija"],
+"Delivery / flyers":[16,"Flyer distributor","flaierite jagaja"],
+"Gardening / outdoor":[15,"Gardening or outdoor helper","aiat\u00f6\u00f6line abit\u00f6\u00f6line"],
+"Farm / seasonal":[15,"Seasonal farm helper","hooajat\u00f6\u00f6"],
+"Babysitting":[15,"Babysitter","lapsehoidja"],
+"Tutoring":[16,"Tutor for younger students","eraõpetaja"],
+"Event help":[16,"Event helper","\u00fcrituse abiline"],
+"Customer service":[16,"Customer service assistant","klienditeenindaja"],
+"Animals":[15,"Animal care helper","loomade hooldaja abiline"],
+"Sports":[16,"Sports club or camp assistant","treeneri abi"],
+"Gaming":[16,"Gaming centre assistant","m\u00e4ngukeskus klienditeenindaja"],
+"Tech & coding":[16,"Junior IT or coding internship","juunior praktika IT"],
+"Art & design":[16,"Design internship","disain praktikant"],
+"Cooking":[16,"Kitchen helper","k\u00f6\u00f6giabiline"],
+"Kids":[15,"Youth camp helper","noortelaagri abi"],
+"Nature":[15,"Nature or outdoor helper","loodus abit\u00f6\u00f6line"],
+"Music":[16,"Music school or event helper","muusikakool abi"],
+"Social media":[16,"Social media internship","sotsiaalmeedia praktikant"],
+"Cars":[18,"Car wash worker","autopesija"],
+"Fashion":[16,"Clothing shop assistant","m\u00fc\u00fcja r\u00f5ivapood"]
+};
+function rankLocal(profile){
+  var town=(profile.town||"").toLowerCase();
+  var scored=visible(profile.age).map(function(l){
+    var k=KEYS[l.id]||{tags:[],when:[]},score=0,why=[],ll=L(l);
+    var hit=k.tags.filter(function(x){return profile.interests.indexOf(x)>-1});
+    if(hit.length){score+=hit.length*2;why.push(tx("whyInt",{x:hit.slice(0,2).map(cl).join(", ")}))}
+    var wh=k.when.filter(function(x){return profile.availability.indexOf(x)>-1});
+    if(wh.length){score+=2;why.push(tx("whyWhen",{x:cl(wh[0])}))}
+    if(town&&(l.town+" "+ll.town).toLowerCase().indexOf(town)>-1){score+=3;why.push(tx("whyTown",{x:ll.town}))}
+    if(l.status==="open")score+=1;
+    return {id:l.id,score:score,why:why.length?why.join("; ")+".":tx("whyNone")};
+  });
+  scored.sort(function(a,b){return b.score-a.score});
+  return {matches:scored.map(function(m){return {id:m.id,why:m.why}})};
+}
+function ideasLocal(profile){
+  var out=[],seen={};
+  function add(k,type,wk){var d=IDEAS[k];if(!d||profile.age<d[0]||seen[k])return;seen[k]=1;
+    var title=LANG==="et"?d[2].charAt(0).toUpperCase()+d[2].slice(1):(LANG==="ru"?(IDEA_RU[k]||d[1]):d[1]);
+    out.push({title:title,type:tx(type),why:tx(wk,{x:cl(k)}),how:tx("matchHow"),search:d[2]})}
+  profile.interests.forEach(function(k){add(k,"ideaT","whyIdea")});
+  ["Shop assistant","Shelf stocking","Cleaning","Customer service"].forEach(function(k){if(out.length<5)add(k,"common","whyCommon")});
+  return {legal_note:tx(profile.age<18?"legalMinor":"legalAdult"),jobs:out.slice(0,5),tip:tx("tip")};
+}
+$("go").onclick=function(){
+  var profile={age:+ageSel.value,town:$("town").value.trim(),interests:picked("interests"),availability:picked("when")};
+  lastRank=rankLocal(profile);page=1;renderBoard();
+  renderIdeas(ideasLocal(profile));$("ideasH").hidden=false;
+  $("status").textContent="";
+};
+function today(){var d=new Date();return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
+function dropExpired(){var t=today();for(var i=LISTINGS.length-1;i>=0;i--){var l=LISTINGS[i];if(l.status==="open"&&l.deadline_iso&&l.deadline_iso<t)LISTINGS.splice(i,1)}}
+function autoGeo(l){var c=[],tw=(l.town||"").toLowerCase();GROUPS.forEach(function(g){g[4].forEach(function(p){var q=p.split("|");if(tw.indexOf(q[1].toLowerCase())>-1){c.push(q[0]);if(c.indexOf("county:"+g[0])<0)c.push("county:"+g[0])}})});return c}
+var TAGMAP=[["klienditeenindaja|customer|müüja|seller|kassa","Customer service","Shop assistant"],["kaubapaigutaja|stocker|shelf","Shelf stocking"],["koristaja|cleaner|puhastus","Cleaning"],["nõudepesija|dishwasher","Dishwashing / kitchen help"],["kokk|köögi|kitchen|cook","Cooking","Dishwashing / kitchen help"],["ladu|laotööline|warehouse","Warehouse"],["ettekandja|teenindaja|waiter|barista","Café / waiter"],["kuller|courier|delivery|flaier","Delivery / flyers"],["toateenindaja|housekeep","Hotel housekeeping"],["jõuluabiline|suveabiline|hooaja|seasonal","Shop assistant"]];
+function autoTags(l){var t=(l.title||"").toLowerCase(),out=[];TAGMAP.forEach(function(r){if(new RegExp(r[0]).test(t))r.slice(1).forEach(function(x){if(out.indexOf(x)<0)out.push(x)})});return out}
+function loadListings(){
+  dropExpired();renderBoard();
+  fetch("listings.json?"+Date.now(),{cache:"no-store"}).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){
+    if(!d||!d.listings||!d.listings.length)return;
+    LISTINGS.length=0;
+    d.listings.forEach(function(x){
+      if(!x.id||!x.title||!x.url)return;
+      var l={id:x.id,title:x.title,employer:x.employer||"",town:x.town||"",status:x.status||"open",deadline:x.deadline||"",deadline_iso:x.deadline_iso||"",minAge:x.minAge==null?null:x.minAge,pay:x.pay||"",note:x.note||"",url:x.url};
+      if(x.maxAge)l.maxAge=x.maxAge;
+      LISTINGS.push(l);TRL[x.id]=x.tr||{};
+      LOC[x.id]={c:(x.c&&x.c.length)?x.c:autoGeo(l),d:x.d};
+      KEYS[x.id]={tags:(x.tags&&x.tags.length)?x.tags:autoTags(l),when:x.when||[]};
+    });
+    if(d.updated)UPD=d.updated;
+    dropExpired();applyStatic();page=1;renderBoard();
+  }).catch(function(){});
+}
+function applyLang(code){
+  LANG=code;try{localStorage.setItem("tt_lang",code)}catch(e){}
+  document.documentElement.lang=code;
+  applyStatic();goalOpts();fillLoc();chips("interests");chips("when");
+  lastRank=null;page=1;$("results").textContent="";$("ideasH").hidden=true;
+  Array.prototype.forEach.call($("langs").children,function(b){b.setAttribute("aria-pressed",b.getAttribute("data-c")===code?"true":"false")});
+  renderBoard();
+}
+["en","et","ru"].forEach(function(c){var b=document.createElement("button");b.type="button";b.setAttribute("data-c",c);b.textContent=c.toUpperCase();b.onclick=function(){applyLang(c)};$("langs").appendChild(b)});
+applyLang(LANG);
+loadListings();
+})();
+</script>
+</body>
+</html>
