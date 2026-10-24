@@ -1,0 +1,412 @@
+{
+ "updated": "2026-10-12",
+ "listings": [
+  {
+   "id": "rimi",
+   "title": "Shelf stocker, part-time (Kaubapaigutaja)",
+   "employer": "Rimi Eesti Food, Pirita Supermarket",
+   "town": "Tallinn",
+   "status": "open",
+   "deadline": "Apply by 28.10.2026",
+   "minAge": 18,
+   "pay": "€5.67/hour",
+   "note": "Listing says 18+ and Estonian B1. 0.5 load Fri–Sun 8:00–16:30, or 0.75 load on a rotating schedule.",
+   "url": "https://too.rimi.ee/jobs/8483293-kaubapaigutaja-pirita-rimi-supermarket",
+   "deadline_iso": "2026-10-28",
+   "c": [
+    "tallinn",
+    "county:harju"
+   ],
+   "d": "pirita",
+   "tags": [
+    "Shelf stocking",
+    "Shop assistant",
+    "Customer service"
+   ],
+   "when": [
+    "Weekends"
+   ],
+   "tr": {
+    "et": {
+     "title": "Kaubapaigutaja, osaline koormus",
+     "deadline": "Kandideeri kuni 28.10.2026",
+     "pay": "5,67 €/tund",
+     "note": "Kuulutuse järgi 18+ ja eesti keel B1. 0,5 koormus R–P 8:00–16:30 või 0,75 koormus vahetustega."
+    },
+    "ru": {
+     "title": "Выкладчик товаров, неполный день",
+     "deadline": "Подать заявку до 28.10.2026",
+     "pay": "5,67 €/час",
+     "note": "По объявлению: 18+ и эстонский B1. 0,5 ставки пт–вс 8:00–16:30 или 0,75 ставки по сменам."
+    }
+   }
+  },
+  {
+   "id": "metsis",
+   "title": "Customer service (Klienditeenindaja), part-time",
+   "employer": "Hotell Metsis (Sistem OÜ)",
+   "town": "Valga",
+   "status": "open",
+   "deadline": "Apply by 31.10.2026",
+   "minAge": 17,
+   "pay": "Not stated",
+   "note": "Töötukassa listing says the employer is ready to hire minors from age 17 for short 'workbit' jobs. Parental consent is needed.",
+   "url": "https://www.tootukassa.ee/et/toopakkumised/klienditeenindaja-593172",
+   "deadline_iso": "2026-10-31",
+   "c": [
+    "valga",
+    "county:valga"
+   ],
+   "tags": [
+    "Customer service",
+    "Hotel housekeeping",
+    "Café / waiter"
+   ],
+   "when": [
+    "Weekday afternoons",
+    "Weekends"
+   ],
+   "tr": {
+    "et": {
+     "title": "Klienditeenindaja, osaline koormus",
+     "deadline": "Kandideeri kuni 31.10.2026",
+     "pay": "Pole märgitud",
+     "note": "Töötukassa kuulutuse järgi värbab tööandja alaealisi alates 17. eluaastast lühiajalistele tööampsudele. Vaja on vanema nõusolekut."
+    },
+    "ru": {
+     "title": "Обслуживание клиентов, неполный день",
+     "deadline": "Подать заявку до 31.10.2026",
+     "pay": "Не указано",
+     "note": "По объявлению Töötukassa работодатель готов нанимать несовершеннолетних с 17 лет на короткие подработки. Нужно согласие родителей."
+    }
+   }
+  },
+  {
+   "id": "coopsiku",
+   "title": "Customer service (Klienditeenindaja), Sikupilli",
+   "employer": "Coop Harju, Sikupilli peremarket",
+   "town": "Tallinn",
+   "status": "open",
+   "deadline": "Apply by 01.11.2026",
+   "minAge": null,
+   "pay": "Not stated",
+   "note": "Full-time, shift work, start immediately. Minimum age is not stated in the listing, so ask the employer.",
+   "url": "https://www.cvkeskus.ee/klienditeenindaja-sikupilli-peremarketisse-coop-harju-tallinnas-harju-tarbijate-uhistu-1057979",
+   "deadline_iso": "2026-11-01",
+   "c": [
+    "tallinn",
+    "county:harju"
+   ],
+   "d": "lasnamae",
+   "tags": [
+    "Customer service",
+    "Shop assistant"
+   ],
+   "when": [],
+   "tr": {
+    "et": {
+     "title": "Klienditeenindaja, Sikupilli",
+     "deadline": "Kandideeri kuni 01.11.2026",
+     "pay": "Pole märgitud",
+     "note": "Täiskoormus, vahetustega, alustamine kohe. Miinimumvanust kuulutuses ei ole, küsi tööandjalt."
+    },
+    "ru": {
+     "title": "Консультант-кассир, Sikupilli",
+     "deadline": "Подать заявку до 01.11.2026",
+     "pay": "Не указано",
+     "note": "Полная ставка, сменный график, начало сразу. Минимальный возраст не указан, спросите у работодателя."
+    }
+   }
+  },
+  {
+   "id": "coopsopruse",
+   "title": "Baker and customer service (Küpsetaja-klienditeenindaja)",
+   "employer": "Coop Harju, Sõpruse store",
+   "town": "Tallinn",
+   "status": "open",
+   "deadline": "Apply by 24.10.2026",
+   "minAge": 18,
+   "pay": "From €1,175/month gross",
+   "note": "Listing says 18+, physical work, spoken Estonian needed.",
+   "url": "https://www.cvkeskus.ee/kupsetaja-klienditeenindaja-sopruse-kauplusesse-coop-harju-tallinnas-harju-tarbijate-uhistu-1056791",
+   "deadline_iso": "2026-10-24",
+   "c": [
+    "tallinn",
+    "county:harju"
+   ],
+   "tags": [
+    "Cooking",
+    "Customer service",
+    "Shop assistant"
+   ],
+   "when": [],
+   "tr": {
+    "et": {
+     "title": "Küpsetaja-klienditeenindaja",
+     "deadline": "Kandideeri kuni 24.10.2026",
+     "pay": "alates 1175 €/kuus bruto",
+     "note": "Kuulutuse järgi 18+, füüsiline töö, vaja eesti keele suulist oskust."
+    },
+    "ru": {
+     "title": "Пекарь и консультант",
+     "deadline": "Подать заявку до 24.10.2026",
+     "pay": "от 1175 €/мес брутто",
+     "note": "По объявлению 18+, физическая работа, нужен разговорный эстонский."
+    }
+   }
+  },
+  {
+   "id": "coopmuraste",
+   "title": "Customer service (Klienditeenindaja), Muraste",
+   "employer": "Coop Harju, Muraste Konsum",
+   "town": "Harku parish, near Tallinn",
+   "status": "open",
+   "deadline": "Apply by 08.11.2026",
+   "minAge": 18,
+   "pay": "About €1,225/month gross",
+   "note": "Full-time, schedule-based. Listing says 18+, physical work, spoken Estonian needed.",
+   "url": "https://www.cvkeskus.ee/klienditeenindaja-muraste-konsumisse-coop-harju-harjumaal-harju-tarbijate-uhistu-1059016",
+   "deadline_iso": "2026-11-08",
+   "c": [
+    "county:harju"
+   ],
+   "tags": [
+    "Customer service",
+    "Shop assistant"
+   ],
+   "when": [],
+   "tr": {
+    "et": {
+     "title": "Klienditeenindaja, Muraste",
+     "town": "Harku vald, Tallinna lähedal",
+     "deadline": "Kandideeri kuni 08.11.2026",
+     "pay": "umbes 1225 €/kuus bruto",
+     "note": "Täiskoormus, graafikujärgne. Kuulutuse järgi 18+, füüsiline töö, vaja eesti keele suulist oskust."
+    },
+    "ru": {
+     "title": "Консультант, Muraste",
+     "town": "волость Харку, рядом с Таллином",
+     "deadline": "Подать заявку до 08.11.2026",
+     "pay": "около 1225 €/мес брутто",
+     "note": "Полная ставка, по графику. По объявлению 18+, физическая работа, нужен разговорный эстонский."
+    }
+   }
+  },
+  {
+   "id": "jyskparnu",
+   "title": "Christmas helper (Jõuluabiline)",
+   "employer": "JYSK Pärnu",
+   "town": "Pärnu",
+   "status": "open",
+   "deadline": "Apply by 08.11.2026",
+   "minAge": null,
+   "pay": "From €946/month gross (full-time)",
+   "note": "Fixed-term 1 Nov – 31 Dec 2026. Store floor and warehouse tasks, flexible load. Minimum age is not stated, so ask the employer.",
+   "url": "https://www.cvkeskus.ee/jouluabiline-parnu-jysk-tahtajaline-leping-perioodiks-01112026-31122026-parnus-jysk-linnen-n-furniture-ou-1059056",
+   "deadline_iso": "2026-11-08",
+   "c": [
+    "parnu",
+    "county:parnu"
+   ],
+   "tags": [
+    "Shop assistant",
+    "Warehouse",
+    "Customer service",
+    "Shelf stocking"
+   ],
+   "when": [
+    "Holidays only"
+   ],
+   "tr": {
+    "et": {
+     "title": "Jõuluabiline",
+     "deadline": "Kandideeri kuni 08.11.2026",
+     "pay": "alates 946 €/kuus bruto (täiskoormus)",
+     "note": "Tähtajaline: 1. nov – 31. dets 2026. Poesaali ja lao ülesanded, paindlik koormus. Miinimumvanust pole märgitud, küsi tööandjalt."
+    },
+    "ru": {
+     "title": "Рождественский помощник",
+     "deadline": "Подать заявку до 08.11.2026",
+     "pay": "от 946 €/мес брутто (полная ставка)",
+     "note": "Срочный договор: 1 нояб – 31 дек 2026. Работа в зале и на складе, гибкая нагрузка. Минимальный возраст не указан, спросите у работодателя."
+    }
+   }
+  },
+  {
+   "id": "jyskviljandi",
+   "title": "Christmas helper (Jõuluabiline)",
+   "employer": "JYSK Viljandi",
+   "town": "Viljandi",
+   "status": "open",
+   "deadline": "See deadline in listing",
+   "minAge": null,
+   "pay": "Not stated",
+   "note": "Fixed-term 1 Nov – 31 Dec 2026. Customer service, displays and warehouse tidying. Minimum age is not stated, so ask the employer.",
+   "url": "https://jobs.smartrecruiters.com/JYSKBaltics/744000154354306-jouluabiline-viljandi-jysk-tahtajaline-leping-perioodiks-01-11-2026-31-12-2026-",
+   "deadline_iso": "",
+   "c": [
+    "viljandi",
+    "county:viljandi"
+   ],
+   "tags": [
+    "Shop assistant",
+    "Warehouse",
+    "Customer service",
+    "Shelf stocking"
+   ],
+   "when": [
+    "Holidays only"
+   ],
+   "tr": {
+    "et": {
+     "title": "Jõuluabiline",
+     "deadline": "Tähtaeg on kuulutuses",
+     "pay": "Pole märgitud",
+     "note": "Tähtajaline: 1. nov – 31. dets 2026. Klienditeenindus, kaupade ülesseadmine ja lao korrastamine. Miinimumvanust pole märgitud, küsi tööandjalt."
+    },
+    "ru": {
+     "title": "Рождественский помощник",
+     "deadline": "Срок указан в объявлении",
+     "pay": "Не указано",
+     "note": "Срочный договор: 1 нояб – 31 дек 2026. Обслуживание клиентов, выкладка и порядок на складе. Минимальный возраст не указан, спросите у работодателя."
+    }
+   }
+  },
+  {
+   "id": "sobralt",
+   "maxAge": 17,
+   "title": "Summer shop job",
+   "employer": "Sõbralt Sõbrale charity shops",
+   "town": "Tallinn, Pärnu, Keila",
+   "status": "plan",
+   "deadline": "Applications opened 1–8 April in 2026",
+   "minAge": 15,
+   "pay": "Paid summer job",
+   "note": "For ages 15–17 and has run for 8 years. Watch their page next spring.",
+   "url": "https://sobraltsobrale.ee/noored-suveks-toole/",
+   "deadline_iso": "",
+   "c": [
+    "tallinn",
+    "parnu",
+    "keila",
+    "county:harju",
+    "county:parnu"
+   ],
+   "tags": [
+    "Shop assistant",
+    "Fashion",
+    "Customer service"
+   ],
+   "when": [
+    "Summer break"
+   ],
+   "tr": {
+    "et": {
+     "title": "Suvine poetöö",
+     "town": "Tallinn, Pärnu, Keila",
+     "deadline": "Kandideerimine algas 1.–8. aprillil 2026",
+     "pay": "Tasuline suvetöö",
+     "note": "Vanuses 15–17, töötab juba 8 aastat. Jälgi nende lehte järgmisel kevadel."
+    },
+    "ru": {
+     "title": "Летняя работа в магазине",
+     "town": "Таллин, Пярну, Кейла",
+     "deadline": "Приём заявок 1–8 апреля 2026",
+     "pay": "Оплачиваемая летняя работа",
+     "note": "Для возраста 15–17, программа идёт уже 8 лет. Следите за их сайтом следующей весной."
+    }
+   }
+  },
+  {
+   "id": "tallinn",
+   "maxAge": 17,
+   "title": "Tallinn summer jobs for 13–17 year olds",
+   "employer": "Tallinn Education Department, with Töötukassa",
+   "town": "Tallinn",
+   "status": "plan",
+   "deadline": "Updated every year",
+   "minAge": 13,
+   "pay": "Varies",
+   "note": "Past listings included cleaning, restaurant service, shelf stocking and sales, mostly from age 15–16. The 2026 ones have closed.",
+   "url": "https://www.tallinn.ee/et/noorteinfo/too-noortele",
+   "deadline_iso": "",
+   "c": [
+    "tallinn",
+    "county:harju"
+   ],
+   "tags": [
+    "Cleaning",
+    "Shelf stocking",
+    "Café / waiter",
+    "Shop assistant",
+    "Hotel housekeeping",
+    "Dishwashing / kitchen help"
+   ],
+   "when": [
+    "Summer break"
+   ],
+   "tr": {
+    "et": {
+     "title": "Tallinna suvetööd 13–17-aastastele",
+     "employer": "Tallinna Haridusamet koos Töötukassaga",
+     "deadline": "Uuendatakse igal aastal",
+     "pay": "Erinev",
+     "note": "Varasemad kuulutused: koristus, restoranis teenindus, kaubapaigutus ja müük, enamasti alates 15–16 aasta vanusest. 2026. aasta omad on lõppenud."
+    },
+    "ru": {
+     "title": "Летняя работа в Таллине для 13–17 лет",
+     "employer": "Департамент образования Таллина и Töötukassa",
+     "deadline": "Обновляется каждый год",
+     "pay": "По-разному",
+     "note": "Раньше были уборка, обслуживание в ресторане, выкладка и продажи, чаще с 15–16 лет. Объявления 2026 года закрыты."
+    }
+   }
+  },
+  {
+   "id": "malev",
+   "maxAge": 17,
+   "title": "Youth work camp (töömalev)",
+   "employer": "Municipalities such as Haapsalu and Rakvere parish",
+   "town": "Haapsalu, Rakvere vald, other towns",
+   "status": "plan",
+   "deadline": "Usually register in spring",
+   "minAge": 13,
+   "pay": "Paid",
+   "note": "Supervised light outdoor work for 13–17 year olds. You usually must be registered in that municipality.",
+   "url": "https://www.noor.haapsalu.ee/toomalev/",
+   "deadline_iso": "",
+   "c": [
+    "haapsalu",
+    "rakvere",
+    "county:laane",
+    "county:laaneviru"
+   ],
+   "tags": [
+    "Gardening / outdoor",
+    "Nature",
+    "Cleaning"
+   ],
+   "when": [
+    "Summer break"
+   ],
+   "tr": {
+    "et": {
+     "title": "Noorte töömalev",
+     "employer": "Omavalitsused, nt Haapsalu ja Rakvere vald",
+     "town": "Haapsalu, Rakvere vald, teised linnad",
+     "deadline": "Registreerimine tavaliselt kevadel",
+     "pay": "Tasuline",
+     "note": "Juhendatud kerge välitöö 13–17-aastastele. Tavaliselt pead olema selle omavalitsuse elanikuna registreeritud."
+    },
+    "ru": {
+     "title": "Молодёжный трудовой лагерь (töömalev)",
+     "employer": "Самоуправления, например Haapsalu и Rakvere vald",
+     "town": "Haapsalu, Rakvere vald, другие города",
+     "deadline": "Обычно регистрация весной",
+     "pay": "Оплачиваемо",
+     "note": "Лёгкая работа на свежем воздухе под присмотром для 13–17 лет. Обычно нужно быть зарегистрированным в этом самоуправлении."
+    }
+   }
+  }
+ ]
+}
