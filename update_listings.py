@@ -2,20 +2,24 @@
 """Refreshes listings.json.
 
 1. Removes open listings whose deadline_iso is in the past.
-2. If APIFY_TOKEN and APIFY_ACTOR are set, pulls new listings from that Apify
-   actor and merges them in (items from earlier auto-runs that are no longer
-   returned are removed).
-Uses only the Python standard library.
+2. If APIFY_TOKEN and APIFY_ACTOR are set, runs the Apify Tootukassa scraper
+   once per keyword below and merges the results in. Auto-added items that are
+   no longer returned are removed, so closed jobs disappear.
+Standard library only.
 """
 import datetime
 import hashlib
 import json
 import os
-import re
 import urllib.request
 
 PATH = "listings.json"
 TODAY = datetime.date.today().isoformat()
+
+# Estonian search words (the Tootukassa search needs Estonian). Edit freely.
+KEYWORDS = ["müüja", "kaubapaigutaja", "koristaja", "klienditeenindaja", "abitööline", "köögiabiline"]
+MAX_PER_KEYWORD = 30   # results per keyword (this is what you pay for)
+MAX_AUTO = 60          # most auto-added listings kept on the site
 
 
 def load():
@@ -29,57 +33,86 @@ def save(data):
         f.write("\n")
 
 
-def fetch_apify():
-    token, actor = os.environ.get("APIFY_TOKEN"), os.environ.get("APIFY_ACTOR")
-    if not token or not actor:
-        return []
-    body = (os.environ.get("APIFY_INPUT") or "{}").encode("utf-8")
-    url = f"https://api.apify.com/v2/acts/{actor}/run-sync-get-dataset-items?token={token}"
-    req = urllib.request.Request(url, data=body, headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=290) as resp:
+def run_actor(query):
+    token = os.environ["APIFY_TOKEN"]
+    actor = os.environ["APIFY_ACTOR"].replace("/", "~")
+    body = json.dumps({
+        "searchQuery": query,
+        "maxResults": MAX_PER_KEYWORD,
+        "proxyConfiguration": {"useApifyProxy": True},
+    }).encode("utf-8")
+    req = urllib.request.Request(
+        f"https://api.apify.com/v2/acts/{actor}/run-sync-get-dataset-items",
+        data=body,
+        headers={"Content-Type": "application/json", "Authorization": "Bearer " + token},
+    )
+    with urllib.request.urlopen(req, timeout=300) as resp:
         return json.load(resp)
 
 
-def pick(item, *names):
-    for n in names:
-        v = item.get(n)
-        if v:
-            return str(v).strip()
-    return ""
+def fmt(iso):
+    return f"{iso[8:10]}.{iso[5:7]}.{iso[:4]}"
 
 
 def convert(item):
-    """Maps one scraped item to our format. Field names are guesses:
-    check the first run's output and adjust the names below if needed."""
-    url = pick(item, "url", "link", "jobUrl", "applyUrl")
-    title = pick(item, "title", "jobTitle", "name", "position")
+    """Maps one Tootukassa scraper item to our listing format."""
+    url = (item.get("url") or "").strip()
+    title = (item.get("jobTitle") or "").strip()
     if not url or not title:
         return None
-    text = " ".join(str(v) for v in item.values() if isinstance(v, str)).lower()
-    min_age = None
-    m = re.search(r"(?:alates|from|от|vähemalt|at least)\s*(1[3-8])", text)
-    if m:
-        min_age = int(m.group(1))
-    elif re.search(r"\b18\s*\+", text):
-        min_age = 18
-    iso = ""
-    m = re.search(r"\d{4}-\d{2}-\d{2}", pick(item, "deadline", "validThrough", "expires", "expiryDate", "endDate"))
-    if m:
-        iso = m.group(0)
+    if item.get("jobTitleDetail"):
+        title += " (" + str(item["jobTitleDetail"]).strip() + ")"
+    iso = (item.get("deadline") or "")[:10]
+    if iso and iso < TODAY:
+        return None
+    kinds_en, kinds_et, kinds_ru = [], [], []
+    if item.get("fullTime"):
+        kinds_en.append("Full-time"); kinds_et.append("Täiskoormus"); kinds_ru.append("Полная занятость")
+    if item.get("partTime"):
+        kinds_en.append("Part-time"); kinds_et.append("Osaline koormus"); kinds_ru.append("Неполная занятость")
+    if item.get("remoteWork"):
+        kinds_en.append("Remote work"); kinds_et.append("Kaugtöö"); kinds_ru.append("Удалённая работа")
     return {
         "id": "a" + hashlib.md5(url.encode()).hexdigest()[:10],
         "title": title,
-        "employer": pick(item, "employer", "company", "companyName", "organization"),
-        "town": pick(item, "location", "city", "town", "address"),
+        "employer": (item.get("company") or "").strip(),
+        "town": (item.get("location") or "").strip(),
         "status": "open",
-        "deadline": ("Apply by " + iso) if iso else "See the listing",
+        "deadline": ("Apply by " + fmt(iso)) if iso else "See the listing",
         "deadline_iso": iso,
-        "minAge": min_age,
-        "pay": pick(item, "salary", "pay", "wage"),
-        "note": pick(item, "description", "summary")[:220],
+        "minAge": None,
+        "pay": "",
+        "note": "From Töötukassa. " + (", ".join(kinds_en) + ". " if kinds_en else "") + "Check the age requirement and details in the listing.",
         "url": url,
         "source": "auto",
+        "tr": {
+            "et": {
+                "deadline": ("Kandideeri kuni " + fmt(iso)) if iso else "Vaata kuulutust",
+                "note": "Töötukassa kuulutus. " + (", ".join(kinds_et) + ". " if kinds_et else "") + "Vaata vanusepiiri ja täpsemat infot kuulutusest.",
+            },
+            "ru": {
+                "deadline": ("Подать заявку до " + fmt(iso)) if iso else "Смотрите объявление",
+                "note": "Объявление Töötukassa. " + (", ".join(kinds_ru) + ". " if kinds_ru else "") + "Возраст и детали смотрите в объявлении.",
+            },
+        },
     }
+
+
+def fetch_all():
+    if not os.environ.get("APIFY_TOKEN") or not os.environ.get("APIFY_ACTOR"):
+        print("APIFY_TOKEN / APIFY_ACTOR not set: skipping fetch")
+        return []
+    found = {}
+    for kw in KEYWORDS:
+        try:
+            for item in run_actor(kw):
+                c = convert(item)
+                if c:
+                    found[c["url"]] = c
+            print(f"'{kw}': ok")
+        except Exception as e:  # one failing keyword must not break the site
+            print(f"'{kw}': failed ({e})")
+    return list(found.values())
 
 
 def main():
@@ -89,22 +122,18 @@ def main():
     items = [l for l in items if not (l.get("status") == "open" and l.get("deadline_iso") and l["deadline_iso"] < TODAY)]
     print(f"Removed {before - len(items)} expired listings")
 
-    try:
-        fetched = fetch_apify()
-    except Exception as e:  # keep the site working if the source fails
-        print("Fetch failed:", e)
-        fetched = []
-    new = [c for c in (convert(i) for i in fetched) if c]
+    new = fetch_all()
     if new:
-        urls = {n["url"] for n in new}
-        items = [l for l in items if l.get("source") != "auto" or l["url"] in urls]
-        known = {l["url"] for l in items}
-        added = [n for n in new if n["url"] not in known]
-        items += added
+        new.sort(key=lambda n: n["deadline_iso"] or "9999")
+        new = new[:MAX_AUTO]
+        manual = [l for l in items if l.get("source") != "auto"]
+        known = {l["url"] for l in manual}
+        auto = [n for n in new if n["url"] not in known]
+        items = manual + auto
         data["updated"] = TODAY
-        print(f"Fetched {len(new)} items, added {len(added)}")
+        print(f"Auto listings now: {len(auto)}")
     else:
-        print("No new items fetched; 'updated' date left unchanged")
+        print("Nothing fetched: kept the existing listings, 'updated' date unchanged")
 
     data["listings"] = items
     save(data)

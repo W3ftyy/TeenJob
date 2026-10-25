@@ -403,7 +403,7 @@ $("go").onclick=function(){
 };
 function today(){var d=new Date();return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2)}
 function dropExpired(){var t=today();for(var i=LISTINGS.length-1;i>=0;i--){var l=LISTINGS[i];if(l.status==="open"&&l.deadline_iso&&l.deadline_iso<t)LISTINGS.splice(i,1)}}
-function autoGeo(l){var c=[],tw=(l.town||"").toLowerCase();GROUPS.forEach(function(g){g[4].forEach(function(p){var q=p.split("|");if(tw.indexOf(q[1].toLowerCase())>-1){c.push(q[0]);if(c.indexOf("county:"+g[0])<0)c.push("county:"+g[0])}})});return c}
+function autoGeo(l){var c=[],tw=(l.town||"").toLowerCase();GROUPS.forEach(function(g){if(tw.indexOf(g[1].toLowerCase()+" maakond")>-1&&c.indexOf("county:"+g[0])<0)c.push("county:"+g[0]);g[4].forEach(function(p){var q=p.split("|");if(tw.indexOf(q[1].toLowerCase())>-1){c.push(q[0]);if(c.indexOf("county:"+g[0])<0)c.push("county:"+g[0])}})});return c}
 var TAGMAP=[["klienditeenindaja|customer|müüja|seller|kassa","Customer service","Shop assistant"],["kaubapaigutaja|stocker|shelf","Shelf stocking"],["koristaja|cleaner|puhastus","Cleaning"],["nõudepesija|dishwasher","Dishwashing / kitchen help"],["kokk|köögi|kitchen|cook","Cooking","Dishwashing / kitchen help"],["ladu|laotööline|warehouse","Warehouse"],["ettekandja|teenindaja|waiter|barista","Café / waiter"],["kuller|courier|delivery|flaier","Delivery / flyers"],["toateenindaja|housekeep","Hotel housekeeping"],["jõuluabiline|suveabiline|hooaja|seasonal","Shop assistant"]];
 function autoTags(l){var t=(l.title||"").toLowerCase(),out=[];TAGMAP.forEach(function(r){if(new RegExp(r[0]).test(t))r.slice(1).forEach(function(x){if(out.indexOf(x)<0)out.push(x)})});return out}
 function loadListings(){
