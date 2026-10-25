@@ -119,43 +119,6 @@
    }
   },
   {
-   "id": "coopsopruse",
-   "title": "Baker and customer service (Küpsetaja-klienditeenindaja)",
-   "employer": "Coop Harju, Sõpruse store",
-   "town": "Tallinn",
-   "status": "open",
-   "deadline": "Apply by 24.10.2026",
-   "minAge": 18,
-   "pay": "From €1,175/month gross",
-   "note": "Listing says 18+, physical work, spoken Estonian needed.",
-   "url": "https://www.cvkeskus.ee/kupsetaja-klienditeenindaja-sopruse-kauplusesse-coop-harju-tallinnas-harju-tarbijate-uhistu-1056791",
-   "deadline_iso": "2026-10-24",
-   "c": [
-    "tallinn",
-    "county:harju"
-   ],
-   "tags": [
-    "Cooking",
-    "Customer service",
-    "Shop assistant"
-   ],
-   "when": [],
-   "tr": {
-    "et": {
-     "title": "Küpsetaja-klienditeenindaja",
-     "deadline": "Kandideeri kuni 24.10.2026",
-     "pay": "alates 1175 €/kuus bruto",
-     "note": "Kuulutuse järgi 18+, füüsiline töö, vaja eesti keele suulist oskust."
-    },
-    "ru": {
-     "title": "Пекарь и консультант",
-     "deadline": "Подать заявку до 24.10.2026",
-     "pay": "от 1175 €/мес брутто",
-     "note": "По объявлению 18+, физическая работа, нужен разговорный эстонский."
-    }
-   }
-  },
-  {
    "id": "coopmuraste",
    "title": "Customer service (Klienditeenindaja), Muraste",
    "employer": "Coop Harju, Muraste Konsum",
