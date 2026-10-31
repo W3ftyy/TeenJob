@@ -2,46 +2,6 @@
  "updated": "2026-10-12",
  "listings": [
   {
-   "id": "rimi",
-   "title": "Shelf stocker, part-time (Kaubapaigutaja)",
-   "employer": "Rimi Eesti Food, Pirita Supermarket",
-   "town": "Tallinn",
-   "status": "open",
-   "deadline": "Apply by 28.10.2026",
-   "minAge": 18,
-   "pay": "€5.67/hour",
-   "note": "Listing says 18+ and Estonian B1. 0.5 load Fri–Sun 8:00–16:30, or 0.75 load on a rotating schedule.",
-   "url": "https://too.rimi.ee/jobs/8483293-kaubapaigutaja-pirita-rimi-supermarket",
-   "deadline_iso": "2026-10-28",
-   "c": [
-    "tallinn",
-    "county:harju"
-   ],
-   "d": "pirita",
-   "tags": [
-    "Shelf stocking",
-    "Shop assistant",
-    "Customer service"
-   ],
-   "when": [
-    "Weekends"
-   ],
-   "tr": {
-    "et": {
-     "title": "Kaubapaigutaja, osaline koormus",
-     "deadline": "Kandideeri kuni 28.10.2026",
-     "pay": "5,67 €/tund",
-     "note": "Kuulutuse järgi 18+ ja eesti keel B1. 0,5 koormus R–P 8:00–16:30 või 0,75 koormus vahetustega."
-    },
-    "ru": {
-     "title": "Выкладчик товаров, неполный день",
-     "deadline": "Подать заявку до 28.10.2026",
-     "pay": "5,67 €/час",
-     "note": "По объявлению: 18+ и эстонский B1. 0,5 ставки пт–вс 8:00–16:30 или 0,75 ставки по сменам."
-    }
-   }
-  },
-  {
    "id": "metsis",
    "title": "Customer service (Klienditeenindaja), part-time",
    "employer": "Hotell Metsis (Sistem OÜ)",
