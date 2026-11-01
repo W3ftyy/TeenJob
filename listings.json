@@ -2,46 +2,6 @@
  "updated": "2026-10-12",
  "listings": [
   {
-   "id": "metsis",
-   "title": "Customer service (Klienditeenindaja), part-time",
-   "employer": "Hotell Metsis (Sistem OÜ)",
-   "town": "Valga",
-   "status": "open",
-   "deadline": "Apply by 31.10.2026",
-   "minAge": 17,
-   "pay": "Not stated",
-   "note": "Töötukassa listing says the employer is ready to hire minors from age 17 for short 'workbit' jobs. Parental consent is needed.",
-   "url": "https://www.tootukassa.ee/et/toopakkumised/klienditeenindaja-593172",
-   "deadline_iso": "2026-10-31",
-   "c": [
-    "valga",
-    "county:valga"
-   ],
-   "tags": [
-    "Customer service",
-    "Hotel housekeeping",
-    "Café / waiter"
-   ],
-   "when": [
-    "Weekday afternoons",
-    "Weekends"
-   ],
-   "tr": {
-    "et": {
-     "title": "Klienditeenindaja, osaline koormus",
-     "deadline": "Kandideeri kuni 31.10.2026",
-     "pay": "Pole märgitud",
-     "note": "Töötukassa kuulutuse järgi värbab tööandja alaealisi alates 17. eluaastast lühiajalistele tööampsudele. Vaja on vanema nõusolekut."
-    },
-    "ru": {
-     "title": "Обслуживание клиентов, неполный день",
-     "deadline": "Подать заявку до 31.10.2026",
-     "pay": "Не указано",
-     "note": "По объявлению Töötukassa работодатель готов нанимать несовершеннолетних с 17 лет на короткие подработки. Нужно согласие родителей."
-    }
-   }
-  },
-  {
    "id": "coopsiku",
    "title": "Customer service (Klienditeenindaja), Sikupilli",
    "employer": "Coop Harju, Sikupilli peremarket",
