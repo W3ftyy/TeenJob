@@ -2,43 +2,6 @@
  "updated": "2026-10-12",
  "listings": [
   {
-   "id": "coopsiku",
-   "title": "Customer service (Klienditeenindaja), Sikupilli",
-   "employer": "Coop Harju, Sikupilli peremarket",
-   "town": "Tallinn",
-   "status": "open",
-   "deadline": "Apply by 01.11.2026",
-   "minAge": null,
-   "pay": "Not stated",
-   "note": "Full-time, shift work, start immediately. Minimum age is not stated in the listing, so ask the employer.",
-   "url": "https://www.cvkeskus.ee/klienditeenindaja-sikupilli-peremarketisse-coop-harju-tallinnas-harju-tarbijate-uhistu-1057979",
-   "deadline_iso": "2026-11-01",
-   "c": [
-    "tallinn",
-    "county:harju"
-   ],
-   "d": "lasnamae",
-   "tags": [
-    "Customer service",
-    "Shop assistant"
-   ],
-   "when": [],
-   "tr": {
-    "et": {
-     "title": "Klienditeenindaja, Sikupilli",
-     "deadline": "Kandideeri kuni 01.11.2026",
-     "pay": "Pole märgitud",
-     "note": "Täiskoormus, vahetustega, alustamine kohe. Miinimumvanust kuulutuses ei ole, küsi tööandjalt."
-    },
-    "ru": {
-     "title": "Консультант-кассир, Sikupilli",
-     "deadline": "Подать заявку до 01.11.2026",
-     "pay": "Не указано",
-     "note": "Полная ставка, сменный график, начало сразу. Минимальный возраст не указан, спросите у работодателя."
-    }
-   }
-  },
-  {
    "id": "coopmuraste",
    "title": "Customer service (Klienditeenindaja), Muraste",
    "employer": "Coop Harju, Muraste Konsum",
